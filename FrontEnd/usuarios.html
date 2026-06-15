@@ -1,0 +1,56 @@
+<div class="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Gestión de Usuarios</h1>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userModal">+ Nuevo Usuario</button>
+    </div>
+
+    <div class="mb-3">
+        <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+            <input type="text" id="searchUser" class="form-control" placeholder="Buscar usuario por nombre o correo..." onkeyup="searchUsers()">
+        </div>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Rol</th>
+                            <th>Acciones</th> </tr>
+                    </thead>
+                    <tbody id="tbodyUsers"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modificar Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editUserId">
+                
+                <input type="text" id="editName" class="form-control mb-3" placeholder="Nombre completo">
+                <input type="email" id="editEmail" class="form-control mb-3" placeholder="Correo electrónico">
+                <select id="editRole" class="form-select">
+                    <option value="admin">Administrador</option>
+                    <option value="user">Usuario</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-warning" onclick="updateUser()">Actualizar Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
