@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/spaces")
+@CrossOrigin(origins = "*")
 public class SpaceController {
 
     @Autowired
