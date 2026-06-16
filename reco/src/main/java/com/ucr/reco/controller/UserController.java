@@ -44,23 +44,30 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@Valid @RequestBody UserDTO user, BindingResult result)//Valida si se cumple, BingindResult valida los errores
+    public ResponseEntity<?> add(@Valid @RequestBody UserDTO user, BindingResult result) // Valida si se cumple, BindingResult valida los errores
     {
+        // 1. Mantiene tu validación nativa de anotaciones de Spring (@NotNull, @Email, etc.)
         if (result.hasErrors())
         {
             List<String> errors = new ArrayList<>();
-
             for (ObjectError error: result.getAllErrors())
             {
                 errors.add(error.getDefaultMessage());
             }
             return ResponseEntity.badRequest().body(errors);
         }
-        if (service.add(user) == null)
+
+        // 2. Intenta registrar el usuario atrapando el mensaje exacto del Service
+        try
         {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El correo ya está registrado o faltan campos obligatorios");
+            service.add(user);
+            return ResponseEntity.ok("Usuario registrado exitosamente");
         }
-        return ResponseEntity.ok("Usuario registrado exitosamente");
+        catch (IllegalArgumentException e)
+        {
+            // Atrapa el texto "El correo electrónico ya está registrado." o "Todos los campos son obligatorios."
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping("{id}")

@@ -29,27 +29,29 @@ public class UserService {
             return repository.save(user);
         }
     */
-    public User add(UserDTO user)
-    {
-        //Valida si el correo existe
-        if (repository.existsByEmail(user.getEmail()))
-        {
-            return null;//Si el correo existe, no permite guardar un usuario nuevo con el mismo correo
-        } else //Si no existe
-        {
-            if (user.getName() == null || user.getEmail() == null || user.getPassword() == null || user.getRole() == null)
-            {
-                //Valida si todos los requerimientos se cumplen, si no, retorna null
-                return null;
-            }
+    public User add(UserDTO user) {
+        // 1. Validar si el correo ya existe
+        if (repository.existsByEmail(user.getEmail())) {
+            throw new IllegalArgumentException("El correo electrónico ya está registrado.");
         }
-        User userTemp = new User();//Define una referencia nueva de tipo user
-        //La informacion que trae el usuario dto se los damos al userTemp
+
+        // 2. Validar que no vengan campos nulos o vacíos
+        if (user.getName() == null || user.getName().trim().isEmpty() ||
+                user.getEmail() == null || user.getEmail().trim().isEmpty() ||
+                user.getPassword() == null || user.getPassword().trim().isEmpty() ||
+                user.getRole() == null || user.getRole().trim().isEmpty()) {
+
+            throw new IllegalArgumentException("Todos los campos son obligatorios.");
+        }
+
+        // 3. Si todo está bien, pasamos los datos del DTO a la entidad real
+        User userTemp = new User();
         userTemp.setName(user.getName());
         userTemp.setEmail(user.getEmail());
         userTemp.setPassword(user.getPassword());
         userTemp.setRole(user.getRole());
-        return repository.save(userTemp);//Guarda el nuevo usuario y lo retorna
+
+        return repository.save(userTemp); // Guarda en Neon y lo retorna
     }
 
     public User getById(Integer id)
