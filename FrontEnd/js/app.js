@@ -367,4 +367,105 @@ async function updateUser() {
 
             const modalElement = document.getElementById('editUserModal');
             const modal = bootstrap.Modal.getInstance(modalElement);
-            if (modal) modal.
+            if (modal) modal.hide();
+        } else {
+            showToast(result, "danger");
+        }
+    } catch (error) {
+        console.error(error);
+        showToast("Error al actualizar usuario", "danger");
+    }
+}
+
+/* =========================================
+   FUNCIONES AVANZADAS DE ESPACIOS (CRUD)
+   ========================================= */
+async function deleteSpace(id) {
+    if (!confirm("¿Deseas eliminar este espacio permanentemente?")) return;
+
+    try {
+        const response = await fetch(`${API}/spaces/delete/${id}`, {
+            method: "DELETE"
+        });
+        const result = await response.text();
+
+        if (response.ok) {
+            showToast(result || "Espacio eliminado con éxito");
+            loadSpaces(); 
+            if (document.getElementById("totalSpaces")) loadDashboard(); 
+        } else {
+            showToast(result, "danger");
+        }
+    } catch (error) {
+        console.error(error);
+        showToast("Error al intentar borrar el espacio", "danger");
+    }
+}
+
+function searchSpaces() {
+    const input = document.getElementById("searchSpace").value.toLowerCase();
+    const cards = document.getElementsByClassName("space-card-item");
+
+    for (let i = 0; i < cards.length; i++) {
+        const cardText = cards[i].textContent.toLowerCase();
+        if (cardText.includes(input)) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+
+function openEditSpace(id, name, location, type, price) {
+    document.getElementById("editSpaceId").value = id;
+    document.getElementById("editSpaceName").value = name;
+    document.getElementById("editLocation").value = location;
+    document.getElementById("editType").value = type;
+    document.getElementById("editPrice").value = price;
+
+    const editModal = new bootstrap.Modal(document.getElementById('editSpaceModal'));
+    editModal.show();
+}
+
+async function updateSpace() {
+    const id = document.getElementById("editSpaceId").value;
+    const updatedSpace = {
+        spaceName: document.getElementById("editSpaceName").value,
+        location: document.getElementById("editLocation").value,
+        type: document.getElementById("editType").value,
+        price: parseFloat(document.getElementById("editPrice").value)
+    };
+
+    try {
+        const response = await fetch(`${API}/spaces/update/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedSpace)
+        });
+
+        if (response.ok) {
+            showToast("Espacio modificado con éxito");
+            loadSpaces(); 
+
+            const modalElement = document.getElementById('editSpaceModal');
+            const modal = bootstrap.Modal.getInstance(modalElement);
+            if (modal) modal.hide();
+        } else {
+            const errorText = await response.text();
+            showToast(errorText, "danger");
+        }
+    } catch (error) {
+        console.error(error);
+        showToast("Error de conexión al actualizar espacio", "danger");
+    }
+}
+
+/* =========================
+   ENRUTADOR INTELIGENTE DE CARGA
+   ========================= */
+document.addEventListener("DOMContentLoaded", () => {
+    if (document.getElementById("totalUsers")) loadDashboard();
+    if (document.getElementById("tbodyUsers")) loadUsers();
+    if (document.getElementById("spacesContainer")) loadSpaces();
+    if (document.getElementById("reservationTable")) loadReservations();
+});
