@@ -1,40 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios | RECO2</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2><i class="bi bi-building"></i> RECO2</h2>
+    <a href="index.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <a href="usuarios.html"><i class="bi bi-people-fill"></i> Usuarios</a>
+    <a href="espacios.html"><i class="bi bi-house-door-fill"></i> Espacios</a>
+    <a href="reservaciones.html"><i class="bi bi-calendar-check-fill"></i> Reservaciones</a>
+</div>
+
 <div class="content">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Gestión de Usuarios</h1>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userModal">+ Nuevo Usuario</button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userModal">
+            <i class="bi bi-plus-circle"></i> Nuevo Usuario
+        </button>
     </div>
 
-    <div class="mb-3">
-        <div class="input-group">
-            <span class="input-group-text"><i class="bi bi-search"></i></span>
-            <input type="text" id="searchUser" class="form-control" placeholder="Buscar usuario por nombre o correo..." onkeyup="searchUsers()">
+    <div class="mb-4">
+        <div class="input-group shadow-sm">
+            <span class="input-group-text bg-white border-end-0">
+                <i class="bi bi-search text-muted"></i>
+            </span>
+            <input type="text" id="searchUser" class="form-control border-start-0 ps-0" placeholder="Buscar usuario por nombre o correo..." onkeyup="searchUsers()">
         </div>
     </div>
 
-    <div class="card shadow">
-        <div class="card-body">
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
                         <tr>
-                            <th>ID</th>
+                            <th class="ps-3">ID</th>
                             <th>Nombre</th>
                             <th>Correo</th>
                             <th>Rol</th>
-                            <th>Acciones</th> </tr>
+                            <th class="text-end pe-3">Acciones</th>
+                        </tr>
                     </thead>
-                    <tbody id="tbodyUsers"></tbody>
+                    <tbody id="tbodyUsers">
+                        </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Modificar Usuario</h5>
+                <h5 class="modal-title" id="userModalLabel">Registrar Nuevo Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="userName" class="form-control mb-3" placeholder="Nombre completo">
+                <input type="email" id="userEmail" class="form-control mb-3" placeholder="Correo electrónico">
+                <input type="password" id="userPassword" class="form-control mb-3" placeholder="Contraseña">
+                <select id="userRole" class="form-select">
+                    <option value="user">Usuario</option>
+                    <option value="admin">Administrador</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-success" onclick="registerUser()">Guardar Usuario</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUserModalLabel">Modificar Usuario</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -49,8 +99,13 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button class="btn btn-warning" onclick="updateUser()">Actualizar Cambios</button>
+                <button class="btn btn-warning text-white" onclick="updateUser()">Actualizar Cambios</button>
             </div>
         </div>
     </div>
 </div>
+
+<script src="js/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
