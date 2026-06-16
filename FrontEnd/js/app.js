@@ -66,7 +66,7 @@ async function loadUsers() {
     try {
         const response = await fetch(`${API}/users/all`);
         if (response.ok) {
-            const users = await response.json(); // Se lee correctamente como JSON
+            const users = await response.json(); 
             tbody.innerHTML = ""; 
 
             users.forEach(user => {
@@ -80,7 +80,7 @@ async function loadUsers() {
                             <button class="btn btn-sm btn-outline-warning me-1" onclick="openEditUser(${user.id}, '${user.name}', '${user.email}', '${user.role}')">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
-                            <button class="btn btn-sm btn-outline-danger" onclick="deleteUser(${user.id})">
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteUser(Number(${user.id}))">
                                 <i class="bi bi-trash-fill"></i>
                             </button>
                         </td>
