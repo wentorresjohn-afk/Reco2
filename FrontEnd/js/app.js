@@ -290,18 +290,20 @@ async function registerReservation() {
 /* =========================================
    FUNCIONES AVANZADAS DE USUARIOS (CRUD)
    ========================================= */
+// 1. ELIMINAR USUARIO (Ruta corregida según tu Backend)
 async function deleteUser(id) {
     if (!confirm("¿Estás completamente seguro de que deseas eliminar este usuario?")) return;
 
     try {
-        const response = await fetch(`${API}/users/delete/${id}`, {
+        // CORRECCIÓN: Quitamos el "/delete" de la URL para que coincida con tu @DeleteMapping("/{id}")
+        const response = await fetch(`${API}/users/${id}`, {
             method: "DELETE"
         });
         const result = await response.text();
 
         if (response.ok) {
             showToast(result || "Usuario eliminado con éxito");
-            loadUsers(); 
+            loadUsers(); // Recarga la tabla automáticamente
             if (document.getElementById("totalUsers")) loadDashboard(); 
         } else {
             showToast(result, "danger");
