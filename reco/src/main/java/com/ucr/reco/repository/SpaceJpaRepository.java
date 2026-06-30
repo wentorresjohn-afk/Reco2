@@ -12,4 +12,6 @@ public interface SpaceJpaRepository extends JpaRepository<Space, Integer> {
 
     Space getByName(String name);//Busca y retorna un objeto tipo space por nombre
 
+
+
 }

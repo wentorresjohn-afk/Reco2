@@ -56,13 +56,10 @@ public class UserService {
 
     public User getById(Integer id)
     {
-        User user = repository.findById(id.intValue());//intValue obtiene el valor del integer
-        if (user != null) {
-            return user;
+        Optional<User> user = repository.findById(id); // findById hereda de JpaRepository, retorna Optional<User>
+        if (user.isPresent()) {
+            return user.get();
         }
-        /*if (repository.existsById(id)) {
-            return repository.findById(id).get();
-        }*/
         return null;
     }
 

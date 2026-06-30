@@ -8,14 +8,6 @@ import java.util.List;
 
 @Repository
 public interface UserJpaRepository extends JpaRepository<User, Integer> {
-    List<User> findAll();
-
-    User save(User user);
-
-    User getById(Integer id);
-
-    boolean existsById(Integer id);
-
     User getByName(String name);
 
     boolean existsByEmail(String email);
@@ -23,8 +15,4 @@ public interface UserJpaRepository extends JpaRepository<User, Integer> {
     boolean existsByPassword(String password);
 
     User getByEmail(String email);
-
-    User findById(int id);
-
-
 }
